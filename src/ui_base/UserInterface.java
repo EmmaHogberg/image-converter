@@ -1,5 +1,6 @@
 package ui_base;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +13,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 public class UserInterface implements Runnable {
@@ -45,10 +49,10 @@ public class UserInterface implements Runnable {
 
         JPanel buttonsContainer = new JPanel();
 
-        // Image path
+        // Image labels
         String imagePath = "img/Elefant.jpg";
         JLabel originalImageLabel = importImageLabel(imagePath);
-        JLabel changedImageLabel = importImageLabel(imagePath);
+        JLabel changedImageLabel = new JLabel(originalImageLabel.getIcon());
 
         // Buttons for processing image
         JButton buttonBlackWhite = new JButton("Svart/Vit");
@@ -56,7 +60,7 @@ public class UserInterface implements Runnable {
         JButton buttonSepia = new JButton("Sepiatoner");
 
         // Listen to processing buttons
-        ImageProcessorButtonListener imageProcessorButtonListener = new ImageProcessorButtonListener(imagePath);
+        ImageProcessorButtonListener imageProcessorButtonListener = new ImageProcessorButtonListener(changedImageLabel);
         buttonBlackWhite.addActionListener(imageProcessorButtonListener);
         buttonBlackWhite.setActionCommand("BlackWhite");
 
@@ -76,8 +80,6 @@ public class UserInterface implements Runnable {
         buttonChooseImage.addActionListener(fileButtonListener);
         buttonSave.addActionListener(fileButtonListener);
 
-
-
         // Set layout
         imageContainer.add(originalImageLabel);
         imageContainer.add(changedImageLabel);
@@ -93,23 +95,31 @@ public class UserInterface implements Runnable {
 
     private JLabel importImageLabel(String imagePath) {
 
+        JLabel imageLabel = new JLabel();
+
         // Create image
-        ImageIcon imageIcon = new ImageIcon(imagePath);
-        Image originalImage = imageIcon.getImage();
 
-        // Calculate preferred image size
-        double heightScale = Constantans.IMAGE_DIMENSION.getHeight() / imageIcon.getIconHeight();
-        double widthScale = Constantans.IMAGE_DIMENSION.getWidth() / imageIcon.getIconWidth();
-        double scale = Math.min(heightScale, widthScale);
-        Dimension scaledDimension = new Dimension((int) Math.round(imageIcon.getIconWidth() * scale),
-                (int) Math.round(imageIcon.getIconHeight() * scale));
+        try {
+            BufferedImage originalImage = ImageIO.read(new File(imagePath));
+            ImageIcon imageIcon = new ImageIcon(originalImage);
 
-        // Scale image
-        Image scaledImage = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
-        imageIcon.setImage(scaledImage);
-        JLabel imageLabel = new JLabel(imageIcon);
-        imageLabel.setPreferredSize(scaledDimension);
+            // Calculate preferred image size
+            double heightScale = Constantans.IMAGE_DIMENSION.getHeight() / imageIcon.getIconHeight();
+            double widthScale = Constantans.IMAGE_DIMENSION.getWidth() / imageIcon.getIconWidth();
+            double scale = Math.min(heightScale, widthScale);
+            Dimension scaledDimension = new Dimension((int) Math.round(imageIcon.getIconWidth() * scale),
+                    (int) Math.round(imageIcon.getIconHeight() * scale));
 
+            // Scale image
+            Image scaledImage = originalImage
+                    .getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
+            imageIcon.setImage(scaledImage);
+            imageLabel.setIcon(imageIcon);
+            imageLabel.setPreferredSize(scaledDimension);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return imageLabel;
     }
