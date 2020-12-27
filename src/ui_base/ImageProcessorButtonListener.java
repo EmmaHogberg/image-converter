@@ -3,28 +3,25 @@ package ui_base;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Image;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class ImageProcessorButtonListener implements ActionListener {
 
-    String imagePath = "";
-    JLabel label;
+    JLabel originalImageLabel;
+    JLabel changedImageLabel;
 
-    public ImageProcessorButtonListener(JLabel label) {
-        this.label = label;
+    public ImageProcessorButtonListener(JLabel originalImageLabel, JLabel changedImageLabel) {
+        this.originalImageLabel = originalImageLabel;
+        this.changedImageLabel = changedImageLabel;
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-//        JLabel label = new JLabel();
-        ImageIcon icon = (ImageIcon) label.getIcon();
-        Image image = icon.getImage();
 
-        System.out.println("Du tryckte på knappen för process");
-        ImageIcon imageIcon = new ImageIcon(imagePath);
-        Image originalImage = imageIcon.getImage();
+        ImageIcon icon = (ImageIcon) originalImageLabel.getIcon();
+        Image image = icon.getImage();
 
         String action = ae.getActionCommand();
 
@@ -34,8 +31,9 @@ public class ImageProcessorButtonListener implements ActionListener {
 
         else if (action.equals("Inverted")) {
             System.out.println("Negativ!");
-            ImageProcessor.invertImage(originalImage);
-
+            image = ImageProcessor.invertImage(image);
+            icon.setImage(image);
+            changedImageLabel.setIcon(icon);
         }
 
         else if (action.equals("Sepia")) {

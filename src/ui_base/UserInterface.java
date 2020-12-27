@@ -1,6 +1,5 @@
 package ui_base;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,16 +11,10 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 
 public class UserInterface implements Runnable {
 
-
-    private JFrame frame;
 
     public UserInterface() {
     }
@@ -30,7 +23,7 @@ public class UserInterface implements Runnable {
     @Override
     public void run() {
 
-        frame = new JFrame();
+        JFrame frame = new JFrame();
         frame.setTitle("Bildomvandlare");
         frame.setPreferredSize(Constantans.FRAME_DIMENSION);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -52,7 +45,7 @@ public class UserInterface implements Runnable {
         // Image labels
         String imagePath = "img/Elefant.jpg";
         JLabel originalImageLabel = importImageLabel(imagePath);
-        JLabel changedImageLabel = new JLabel(originalImageLabel.getIcon());
+        JLabel changedImageLabel = importImageLabel(imagePath);
 
         // Buttons for processing image
         JButton buttonBlackWhite = new JButton("Svart/Vit");
@@ -60,7 +53,7 @@ public class UserInterface implements Runnable {
         JButton buttonSepia = new JButton("Sepiatoner");
 
         // Listen to processing buttons
-        ImageProcessorButtonListener imageProcessorButtonListener = new ImageProcessorButtonListener(changedImageLabel);
+        ImageProcessorButtonListener imageProcessorButtonListener = new ImageProcessorButtonListener(originalImageLabel, changedImageLabel);
         buttonBlackWhite.addActionListener(imageProcessorButtonListener);
         buttonBlackWhite.setActionCommand("BlackWhite");
 
@@ -95,38 +88,24 @@ public class UserInterface implements Runnable {
 
     private JLabel importImageLabel(String imagePath) {
 
-        JLabel imageLabel = new JLabel();
-
         // Create image
+        ImageIcon imageIcon = new ImageIcon(imagePath);
 
-        try {
-            BufferedImage originalImage = ImageIO.read(new File(imagePath));
-            ImageIcon imageIcon = new ImageIcon(originalImage);
+        // Calculate preferred image size
+        double heightScale = Constantans.IMAGE_DIMENSION.getHeight() / imageIcon.getIconHeight();
+        double widthScale = Constantans.IMAGE_DIMENSION.getWidth() / imageIcon.getIconWidth();
+        double scale = Math.min(heightScale, widthScale);
+        Dimension scaledDimension = new Dimension((int) Math.round(imageIcon.getIconWidth() * scale),
+                (int) Math.round(imageIcon.getIconHeight() * scale));
 
-            // Calculate preferred image size
-            double heightScale = Constantans.IMAGE_DIMENSION.getHeight() / imageIcon.getIconHeight();
-            double widthScale = Constantans.IMAGE_DIMENSION.getWidth() / imageIcon.getIconWidth();
-            double scale = Math.min(heightScale, widthScale);
-            Dimension scaledDimension = new Dimension((int) Math.round(imageIcon.getIconWidth() * scale),
-                    (int) Math.round(imageIcon.getIconHeight() * scale));
-
-            // Scale image
-            Image scaledImage = originalImage
-                    .getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
-            imageIcon.setImage(scaledImage);
-            imageLabel.setIcon(imageIcon);
-            imageLabel.setPreferredSize(scaledDimension);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Scale image
+        Image scaledImage = imageIcon.getImage()
+                .getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
+        imageIcon.setImage(scaledImage);
+        JLabel imageLabel = new JLabel();
+        imageLabel.setIcon(imageIcon);
+        imageLabel.setPreferredSize(scaledDimension);
 
         return imageLabel;
     }
-
-
-    public JFrame getFrame() {
-        return frame;
-    }
-
 }
