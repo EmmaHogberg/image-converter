@@ -4,9 +4,41 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+
 public class ImageProcessor {
 
-    public static Image invertImage(Image image) {
+    // Converting image to black and white
+    public static Image getGrayscaleImage(Image image) {
+
+        BufferedImage bufferedImage = toBufferedImage(image);
+
+        for (int i = 0; i < bufferedImage.getHeight(); i++) {
+
+            for (int j = 0; j < bufferedImage.getWidth(); j++) {
+                int pixel = bufferedImage.getRGB(i, j);
+                int a = (pixel>>24)&0xff;
+                int r = (pixel>>16)&0xff;
+                int g = (pixel>>8)&0xff;
+                int b = pixel&0xff;
+
+                // Normalize and gamma correct:
+                double rr = Math.pow(r / 255.0, 2.2);
+                double gg = Math.pow(g / 255.0, 2.2);
+                double bb = Math.pow(b / 255.0, 2.2);
+
+                //calculate average
+                int avg = (r+g+b)/3;
+
+                //replace RGB value with avg
+                pixel = (a<<24) | (avg<<16) | (avg<<8) | avg;
+                bufferedImage.setRGB(i, j, pixel);
+            }
+        }
+        return bufferedImage;
+    }
+
+    // Converting image to inverted
+    public static Image getInvertImage(Image image) {
 
         BufferedImage bufferedImage = toBufferedImage(image);
 
@@ -26,13 +58,49 @@ public class ImageProcessor {
                 pixel = (a<<24) | (r<<16) | (g<<8) | b;
                 bufferedImage.setRGB(i, j, pixel);
             }
-
         }
         return bufferedImage;
     }
 
+
+    // Converting image to sepia
+    public static Image getSepiaImage(Image image) {
+
+        BufferedImage bufferedImage = toBufferedImage(image);
+
+        for (int i = 0; i < bufferedImage.getHeight(); i++) {
+
+            for (int j = 0; j < bufferedImage.getWidth(); j++) {
+                int pixel = bufferedImage.getRGB(i, j);
+                int a = (pixel>>24)&0xff;
+                int r = (pixel>>16)&0xff;
+                int g = (pixel>>8)&0xff;
+                int b = pixel&0xff;
+
+                //calculate tr, tg, tb
+                int tr = (int)(0.793*r + 0.769*g + 0.189*b);
+                int tg = (int)(0.349*r + 0.686*g + 0.168*b);
+                int tb = (int)(0.272*r + 0.534*g + 0.131*b);
+
+                //check condition
+                r = Math.min(tr, 255);
+                g = Math.min(tg, 255);
+                b = Math.min(tb, 255);
+
+                pixel = (a<<24) | (r<<16) | (g<<8) | b;
+                bufferedImage.setRGB(i, j, pixel);
+            }
+        }
+        return bufferedImage;
+    }
+
+
+
+
+
+// Converting image into a BufferedImage
+
     /**
-     * Converts a given Image into a BufferedImage
      * Copied from: https://stackoverflow.com/questions/13605248/java-converting-image-to-bufferedimage
      *
      * @param img The Image to be converted

@@ -43,9 +43,8 @@ public class UserInterface implements Runnable {
         JPanel buttonsContainer = new JPanel();
 
         // Image labels
-        String imagePath = "img/Elefant.jpg";
-        JLabel originalImageLabel = importImageLabel(imagePath);
-        JLabel changedImageLabel = importImageLabel(imagePath);
+        JLabel originalImageLabel = new JLabel();
+        JLabel changedImageLabel = new JLabel();
 
         // Buttons for processing image
         JButton buttonBlackWhite = new JButton("Svart/Vit");
@@ -69,7 +68,7 @@ public class UserInterface implements Runnable {
         JButton buttonSave = new JButton("Spara bilden");
 
         // Listen to file buttons
-        FileButtonListener fileButtonListener = new FileButtonListener();
+        FileButtonListener fileButtonListener = new FileButtonListener(originalImageLabel, changedImageLabel);
         buttonChooseImage.addActionListener(fileButtonListener);
         buttonSave.addActionListener(fileButtonListener);
 
@@ -83,29 +82,5 @@ public class UserInterface implements Runnable {
         buttonsContainer.add(buttonSave);
         container.add(imageContainer, BorderLayout.NORTH);
         container.add(buttonsContainer, BorderLayout.SOUTH);
-    }
-
-
-    private JLabel importImageLabel(String imagePath) {
-
-        // Create image
-        ImageIcon imageIcon = new ImageIcon(imagePath);
-
-        // Calculate preferred image size
-        double heightScale = Constantans.IMAGE_DIMENSION.getHeight() / imageIcon.getIconHeight();
-        double widthScale = Constantans.IMAGE_DIMENSION.getWidth() / imageIcon.getIconWidth();
-        double scale = Math.min(heightScale, widthScale);
-        Dimension scaledDimension = new Dimension((int) Math.round(imageIcon.getIconWidth() * scale),
-                (int) Math.round(imageIcon.getIconHeight() * scale));
-
-        // Scale image
-        Image scaledImage = imageIcon.getImage()
-                .getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
-        imageIcon.setImage(scaledImage);
-        JLabel imageLabel = new JLabel();
-        imageLabel.setIcon(imageIcon);
-        imageLabel.setPreferredSize(scaledDimension);
-
-        return imageLabel;
     }
 }

@@ -27,18 +27,22 @@ public class ImageProcessorButtonListener implements ActionListener {
 
         if (action.equals("BlackWhite")) {
             System.out.println("Svart!");
+            image = ImageProcessor.getGrayscaleImage(image);
         }
 
         else if (action.equals("Inverted")) {
             System.out.println("Negativ!");
-            image = ImageProcessor.invertImage(image);
-            icon.setImage(image);
-            changedImageLabel.setIcon(icon);
+            image = ImageProcessor.getInvertImage(image);
         }
 
         else if (action.equals("Sepia")) {
             System.out.println("Brunt!");
+            image = ImageProcessor.getSepiaImage(image);
+
         }
+
+        ImageIcon changedIcon = new ImageIcon(image);
+        changedImageLabel.setIcon(changedIcon);
 
 
 
