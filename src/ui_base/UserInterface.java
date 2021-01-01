@@ -45,8 +45,8 @@ public class UserInterface implements Runnable {
 
         // Buttons for processing image
         JButton buttonBlackWhite = new JButton("Svart/Vit");
-        JButton buttonInverted = new JButton("Invertera");
-        JButton buttonSepia = new JButton("Sepiatoner");
+        JButton buttonInverted = new JButton("Inverterad");
+        JButton buttonSepia = new JButton("Sepiatonad");
 
         // Listen to processing buttons
         ImageProcessorButtonListener imageProcessorButtonListener = new ImageProcessorButtonListener(originalImageLabel, changedImageLabel);

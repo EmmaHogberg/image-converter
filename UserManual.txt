@@ -1,0 +1,26 @@
+Välkommen till programmet Bildomvandlaren
+Börja med att starta Bildomvandlaren för att bearbeta din första bild.
+
+När du just har startat Bildomvandlaren finns bara en tom ruta med en menyrad
+längst ner i programfönstret.
+För att komma igång har du två alternativ;
+1. Klicka på "Välj bild" och väljer då en egen bild från din dator.
+2. Klicka på "Exempel-bild" och får då fram en bild som följer med programmet.
+
+Efter att du öppnat en bild så visar sig två likadana bilder i programfönstret,
+den till vänster är originalbilden som du kan ha för jämförelse när du sedan
+bearbetar bilden med olika filter och bilden till höger visar resultatet av
+själva bearbetningen.
+
+I menyraden finns tre olika knappar som du klickar på för att bearbeta bilden;
+Svart/Vit: Omvandlar bilden till gråskala och en så kallad svart/vit-bild.
+Inverterad: Omvandlar bilden till ett negativ med inverterad färgskala.
+Sepiatonad: Omvandlar bilden med en brun ton som brukar kallas sepia. 
+
+Det går att bra växla mellan dessa tre alternativ och vill du öppna en annan bild
+så klickar du bara på "Välj bild" eller "Exempel-bild". 
+
+För att avsluta Bildomvandlaren så klickar du på krysset längst upp till höger 
+av programfönstret. 
+
+Lycka till!
