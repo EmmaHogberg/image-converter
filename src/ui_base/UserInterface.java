@@ -5,12 +5,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.ImageIcon;
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
+
 
 
 public class UserInterface implements Runnable {
@@ -18,7 +16,6 @@ public class UserInterface implements Runnable {
 
     public UserInterface() {
     }
-
 
     @Override
     public void run() {
@@ -65,7 +62,9 @@ public class UserInterface implements Runnable {
 
         // Buttons for choosing and saving processed image
         JButton buttonChooseImage = new JButton("Välj bild");
+        buttonChooseImage.setActionCommand("Open");
         JButton buttonSave = new JButton("Spara bilden");
+        buttonSave.setActionCommand("Save");
 
         // Listen to file buttons
         FileButtonListener fileButtonListener = new FileButtonListener(originalImageLabel, changedImageLabel);
@@ -80,7 +79,7 @@ public class UserInterface implements Runnable {
         buttonsContainer.add(buttonInverted);
         buttonsContainer.add(buttonSepia);
         buttonsContainer.add(buttonSave);
-        container.add(imageContainer, BorderLayout.NORTH);
+        container.add(imageContainer, BorderLayout.CENTER);
         container.add(buttonsContainer, BorderLayout.SOUTH);
     }
 }

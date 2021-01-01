@@ -26,17 +26,17 @@ public class ImageProcessorButtonListener implements ActionListener {
         String action = ae.getActionCommand();
 
         if (action.equals("BlackWhite")) {
-            System.out.println("Svart!");
+            System.out.println("Du tryckte på knappen för Svart");
             image = ImageProcessor.getGrayscaleImage(image);
         }
 
         else if (action.equals("Inverted")) {
-            System.out.println("Negativ!");
+            System.out.println("Du tryckte på knappen för negativ");
             image = ImageProcessor.getInvertImage(image);
         }
 
         else if (action.equals("Sepia")) {
-            System.out.println("Brunt!");
+            System.out.println("Du tryckte på knappen för brunt");
             image = ImageProcessor.getSepiaImage(image);
 
         }

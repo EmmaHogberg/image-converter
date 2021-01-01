@@ -12,10 +12,10 @@ public class ImageProcessor {
 
         BufferedImage bufferedImage = toBufferedImage(image);
 
-        for (int i = 0; i < bufferedImage.getHeight(); i++) {
+        for (int y = 0; y < bufferedImage.getHeight(); y++) {
 
-            for (int j = 0; j < bufferedImage.getWidth(); j++) {
-                int pixel = bufferedImage.getRGB(i, j);
+            for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                int pixel = bufferedImage.getRGB(x, y);
                 int a = (pixel>>24)&0xff;
                 int r = (pixel>>16)&0xff;
                 int g = (pixel>>8)&0xff;
@@ -31,7 +31,7 @@ public class ImageProcessor {
 
                 //replace RGB value with avg
                 pixel = (a<<24) | (avg<<16) | (avg<<8) | avg;
-                bufferedImage.setRGB(i, j, pixel);
+                bufferedImage.setRGB(x, y, pixel);
             }
         }
         return bufferedImage;
@@ -42,10 +42,10 @@ public class ImageProcessor {
 
         BufferedImage bufferedImage = toBufferedImage(image);
 
-        for (int i = 0; i < bufferedImage.getHeight(); i++) {
+        for (int y = 0; y < bufferedImage.getHeight(); y++) {
 
-            for (int j = 0; j < bufferedImage.getWidth(); j++) {
-                int pixel = bufferedImage.getRGB(i, j);
+            for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                int pixel = bufferedImage.getRGB(x, y);
                 int a = (pixel>>24)&0xff;
                 int r = (pixel>>16)&0xff;
                 int g = (pixel>>8)&0xff;
@@ -56,7 +56,7 @@ public class ImageProcessor {
                 b = 255 - b;
 
                 pixel = (a<<24) | (r<<16) | (g<<8) | b;
-                bufferedImage.setRGB(i, j, pixel);
+                bufferedImage.setRGB(x, y, pixel);
             }
         }
         return bufferedImage;
@@ -68,17 +68,17 @@ public class ImageProcessor {
 
         BufferedImage bufferedImage = toBufferedImage(image);
 
-        for (int i = 0; i < bufferedImage.getHeight(); i++) {
+        for (int y = 0; y < bufferedImage.getHeight(); y++) {
 
-            for (int j = 0; j < bufferedImage.getWidth(); j++) {
-                int pixel = bufferedImage.getRGB(i, j);
+            for (int x = 0; x < bufferedImage.getWidth(); x++) {
+                int pixel = bufferedImage.getRGB(x, y);
                 int a = (pixel>>24)&0xff;
                 int r = (pixel>>16)&0xff;
                 int g = (pixel>>8)&0xff;
                 int b = pixel&0xff;
 
                 //calculate tr, tg, tb
-                int tr = (int)(0.793*r + 0.769*g + 0.189*b);
+                int tr = (int)(0.393*r + 0.769*g + 0.189*b);
                 int tg = (int)(0.349*r + 0.686*g + 0.168*b);
                 int tb = (int)(0.272*r + 0.534*g + 0.131*b);
 
@@ -88,7 +88,7 @@ public class ImageProcessor {
                 b = Math.min(tb, 255);
 
                 pixel = (a<<24) | (r<<16) | (g<<8) | b;
-                bufferedImage.setRGB(i, j, pixel);
+                bufferedImage.setRGB(x, y, pixel);
             }
         }
         return bufferedImage;
@@ -106,7 +106,7 @@ public class ImageProcessor {
      * @param img The Image to be converted
      * @return The converted BufferedImage
      */
-    private static BufferedImage toBufferedImage(Image img)
+    public static BufferedImage toBufferedImage(Image img)
     {
         if (img instanceof BufferedImage)
         {
