@@ -63,8 +63,8 @@ public class UserInterface implements Runnable {
         // Buttons for choosing and saving processed image
         JButton buttonChooseImage = new JButton("Välj bild");
         buttonChooseImage.setActionCommand("Open");
-        JButton buttonSave = new JButton("Spara bilden");
-        buttonSave.setActionCommand("Save");
+        JButton buttonSave = new JButton("Exempel-bild");
+        buttonSave.setActionCommand("Example");
 
         // Listen to file buttons
         FileButtonListener fileButtonListener = new FileButtonListener(originalImageLabel, changedImageLabel);
@@ -75,10 +75,11 @@ public class UserInterface implements Runnable {
         imageContainer.add(originalImageLabel);
         imageContainer.add(changedImageLabel);
         buttonsContainer.add(buttonChooseImage);
+        buttonsContainer.add(buttonSave);
         buttonsContainer.add(buttonBlackWhite);
         buttonsContainer.add(buttonInverted);
         buttonsContainer.add(buttonSepia);
-        buttonsContainer.add(buttonSave);
+
         container.add(imageContainer, BorderLayout.CENTER);
         container.add(buttonsContainer, BorderLayout.SOUTH);
     }

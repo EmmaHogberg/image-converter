@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public class ImageProcessor {
 
     // Converting image to black and white
-    public static Image getGrayscaleImage(Image image) {
+    public static Image getBlackWhiteImage(Image image) {
 
         BufferedImage bufferedImage = toBufferedImage(image);
 
@@ -26,10 +26,10 @@ public class ImageProcessor {
                 double gg = Math.pow(g / 255.0, 2.2);
                 double bb = Math.pow(b / 255.0, 2.2);
 
-                //calculate average
+                // Calculate average
                 int avg = (r+g+b)/3;
 
-                //replace RGB value with avg
+                // Replace RGB value with avg
                 pixel = (a<<24) | (avg<<16) | (avg<<8) | avg;
                 bufferedImage.setRGB(x, y, pixel);
             }
@@ -37,7 +37,7 @@ public class ImageProcessor {
         return bufferedImage;
     }
 
-    // Converting image to inverted
+    // Converting image to inverted colors
     public static Image getInvertImage(Image image) {
 
         BufferedImage bufferedImage = toBufferedImage(image);
@@ -77,12 +77,12 @@ public class ImageProcessor {
                 int g = (pixel>>8)&0xff;
                 int b = pixel&0xff;
 
-                //calculate tr, tg, tb
+                // Calculate tr, tg, tb
                 int tr = (int)(0.393*r + 0.769*g + 0.189*b);
                 int tg = (int)(0.349*r + 0.686*g + 0.168*b);
                 int tb = (int)(0.272*r + 0.534*g + 0.131*b);
 
-                //check condition
+                // Check condition
                 r = Math.min(tr, 255);
                 g = Math.min(tg, 255);
                 b = Math.min(tb, 255);
@@ -114,14 +114,14 @@ public class ImageProcessor {
         }
 
         // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
         // Draw the image on to the buffered image
-        Graphics2D bGr = bimage.createGraphics();
+        Graphics2D bGr = image.createGraphics();
         bGr.drawImage(img, 0, 0, null);
         bGr.dispose();
 
         // Return the buffered image
-        return bimage;
+        return image;
     }
 }
