@@ -1,6 +1,16 @@
 # java-slutprojekt-bildomvandlare
 Ett litet program för att ladda in en bild och omvandla den på olika sätt
 
+## Svart-Vit
+![1](https://user-images.githubusercontent.com/70634183/140626392-5b4b8199-8ae1-480b-b700-319b8bdef20f.png)
+
+## Inverterad
+![2](https://user-images.githubusercontent.com/70634183/140626391-d195d196-8f52-4e06-891c-dd51324d6633.png)
+
+## Sepiatonad
+![3](https://user-images.githubusercontent.com/70634183/140626389-4de0ae35-8ea0-43b4-9176-6b223cfea894.png)
+
+
 ## Ni skall skapa ett program som lösa ett av de tre problemen som förklaras här under.
 Ert program ska vara körbart för en person som inte har några programmeringskunskaper, så ni behöver göra följande:
 1. Ni skall skapa en användarmanual som beskriver hur ert program ska användas.
